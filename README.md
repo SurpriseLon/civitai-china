@@ -23,53 +23,57 @@
 - [Sponsors](#sponsors)
 - [License](#license)
 
-## About the Project
+## 关于该项目
 
-Our goal with this project is to create a platform where people can share their stable diffusion models (textual inversions, hypernetworks, aesthetic gradients, VAEs, and any other crazy stuff people do to customize their AI generations), collaborate with others to improve them, and learn from each other's work. The platform allows users to create an account, upload their models, and browse models that have been shared by others. Users can also leave comments and feedback on each other's models to facilitate collaboration and knowledge sharing.
+本项目的目标是创建一个平台，让人们可以分享他们的稳定扩散模型（文本反转、超网络、美学梯度、变分自动编码器以及其他人们用来定制AI生成的疯狂方法），与他人合作改进这些模型，并互相学习。该平台允许用户创建账户，上传他们的模型，并浏览他人分享的模型。用户还可以在彼此的模型上留下评论和反馈，以促进合作和知识共享。
 
-### Tech Stack
+### 技术栈
 
-We've built this project using a combination of modern web technologies, including Next.js for the frontend, TRPC for the API, and Prisma + Postgres for the database. By leveraging these tools, we've been able to create a scalable and maintainable platform that is both user-friendly and powerful.
+我们使用了一系列现代Web技术来构建这个项目，其中包括Next.js作为前端框架，TRPC作为API工具，以及Prisma和Postgres作为数据库。通过利用这些工具，我们成功创建了一个可扩展和易于维护的平台，既用户友好又功能强大。
 
-- **DB:** Prisma + Postgres
+- **数据库:** Prisma + Postgres
 - **API:** tRPC
-- **Front-end + Back-end:** NextJS
+- **前后端:** NextJS
 - **UI Kit:** [Mantine](https://mantine.dev/)
-- **Storage:** Cloudflare
+- **空间:** Cloudflare
 
-## Getting Started
+## 入门指南
 
-To get a local copy up and running follow these simple example steps.
+若要在本地运行并进行简单示例操作，请按照以下步骤进行操作：
 
-### Prerequisites
+### 准备
 
-First, make sure that you have the following installed on your machine:
-- Node.js (version 18 or later)
-- Docker (for running the database)
+首先，请确保您的计算机已安装以下内容：
+- Node.js (18或者以上)
+- Docker (运行数据库)
 
-> We recommend you have installed `nvm` in order to set the right node version to run this project
+> 我们建议您安装`nvm`，以便设置正确的Node版本来运行此项目。
 > ```sh
 > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 > ```
 
-### Installation
+### 安装
 
-1. Clone the repository to your local machine.
-1. Run `npm install` in the project directory to install the necessary dependencies.
-1. Spin up required services with `docker-compose up -d`
-    * Note: In addition to postgres and redis, this will also run maildev for email and minio for s3 storage with all necessary buckets automatically created, minio and maildev are not strictly needed but are preferred for testing and development purposes.
-1. Create your `.env` by making a copy of the contents from `.env-example` file.
-    * Most default values are configured to work with the docker-compose setup, with the exception of the S3 upload key and secret. To generate those, navigate to the minio web interface at [http://localhost:9000](http://localhost:9000) with the default username and password `minioadmin`, and then navigate to the "Access Keys" tab. Click "Create Access Key" and copy the generated key and secret into the `.env` file.
-    * Set `WEBHOOK_TOKEN` to a random string of your choice. This will be used to authenticate requests to the webhook endpoint.
-1. Run `npm run db:migrate` to run all database migrations.
-1. Run `npm run db:generate` to generate the prisma client.
-1. Start the development server by running `npm run dev`.
-1. Visit the page `http://localhost:3000/api/webhooks/run-jobs?token=WEBHOOK_TOKEN&run=update-metrics` to start the metrics update job (make sure to substitute `WEBHOOK_TOKEN`)
-1. Finally, visit [http://localhost:3000](http://localhost:3000) to see the website.
-    * Note that account creation will run emails through maildev, which can be accessed at [http://localhost:1080](http://localhost:1080).
-    * Also note that Cloudflare credentials are necessary in order for image uploads to work.
+请按照以下步骤在本地机器上进行操作：
 
-### Important Scripts
+1. 将存储库克隆到您的本地机器。
+2. 在项目目录中运行`npm install`，安装所需的依赖项。
+3. 使用`docker-compose up -d`启动所需的服务。
+   * 注意：除了PostgreSQL和Redis外，这还将自动运行用于电子邮件的maildev和用于S3存储的minio，并自动创建所有必要的存储桶。尽管minio和maildev不是强制性的，但在测试和开发过程中它们是首选。
+4. 通过从`.env-example`文件中复制内容创建您的`.env`文件。
+   * 大多数默认值都已配置为与docker-compose设置配合工作，除了S3上传密钥和密钥。要生成这些，请访问minio的Web界面[http://localhost:9000](http://localhost:9000)，使用默认用户名和密码`minioadmin`，然后导航到"Access Keys"选项卡。点击"Create Access Key"，并将生成的密钥和密钥复制到`.env`文件中。
+   * 将`WEBHOOK_TOKEN`设置为您选择的随机字符串。这将用于对webhook端点的请求进行身份验证。
+5. 运行`npm run db:migrate`来运行所有数据库迁移。
+6. 运行`npm run db:generate`以生成Prisma客户端。
+7. 运行`npm run dev`启动开发服务器。
+8. 访问页面`http://localhost:3000/api/webhooks/run-jobs?token=WEBHOOK_TOKEN&run=update-metrics`以启动度量更新作业（确保替换`WEBHOOK_TOKEN`）。
+9. 最后，访问[http://localhost:3000](http://localhost:3000)以查看网站。
+   * 请注意，帐户创建将通过maildev发送电子邮件，可以在[http://localhost:1080](http://localhost:1080)访问maildev。
+   * 还请注意，为了使图像上传工作，需要Cloudflare凭据。
+
+请根据您的具体情况进行相应的安装和设置。
+
+### 重要脚本
 ```sh
 docker-compose up -d # Spin up db, redis, maildev, and minio
 
